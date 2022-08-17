@@ -1,0 +1,620 @@
+<section>
+
+
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    <h2 class="text-center mb-4">UGC Pay Revision Arrear</h2>
+                </div>
+
+                <form action="/view-ugcarrear" method="POST" name="form">
+
+                    <div class="form-group row">
+                        <label for="colFormLabel" class="col-sm-2 col-form-label">Pay</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="pay" placeholder="" name="pay">
+                        </div>
+                        <label for="colFormLabel" class="col-sm-2 col-form-label">AGP</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="agp" placeholder="" name="agp">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label for="colFormLabel" class="col-sm-3 col-form-label">Joining Date</label>
+                        <label for="colFormLabel" class="col-sm-4 col-form-label">(only if after 1/1/2016)</label>
+                        <div class="col-sm-5">
+                            <input type="date" class="form-control" id="joiningdate" placeholder="" name="joiningdate">
+                        </div>
+
+                        <label for="colFormLabel" class="col-sm-3 col-form-label">Promotion Date</label>
+                        <label for="colFormLabel" class="col-sm-4 col-form-label">(only if after 1/1/2016)</label>
+                        <div class="col-sm-5">
+                            <input type="date" class="form-control" id="promotiondate" placeholder=""
+                                name="promotiondate">
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="colFormLabel" class="col-sm-4 col-form-label">DA rate claimed upto</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="daclaimed" placeholder="" name="daclaimed">
+                        </div>
+                    </div>                    
+
+                    <div class="form-group row">
+                        <label for="colFormLabel" class="col-sm-12 col-form-label">Bill Period</label>
+                        <label for="colFormLabel" class="col-sm-1 col-form-label">From</label>
+                        <div class="col-sm-5">
+                            <input type="month" class="form-control" id="monthfrom" placeholder="" name="monthfrom">
+                        </div>
+                        <label for="colFormLabel" class="col-sm-1 col-form-label">To</label>
+                        <div class="col-sm-5">
+                            <input type="month" class="form-control" id="monthto" placeholder="" name="monthto">
+                        </div>
+                    </div>
+
+                    <div class="lwa_wrapper">
+                        <div class="col-sm-12 mb-1">
+                            <label for="colFormLabel" class="col-sm-2 col-form-label">LWA</label>
+                            <input type="date" name="field[]" value="">
+                            <input type="date" name="field[]" value="">
+                            <a href="javascript:void(0);" class="add_lwa" title="Add field"><img
+                                    src="/images/addbutton.png" width="25px" height="auto" /></a>
+                        </div>
+                    </div>
+
+                    <div class="hpl_wrapper">
+                        <div class="col-sm-12 mb-1">
+                            <label for="colFormLabel" class="col-sm-2 col-form-label">HPL</label>
+                            <input type="date" name="hpl[]" value="">
+                            <input type="date" name="hpl[]" value="">
+                            <a href="javascript:void(0);" class="add_hpl" title="Add field"><img
+                                    src="/images/addbutton.png" width="25px" height="auto" /></a>
+                        </div>
+                    </div>
+
+                    
+                    <a onclick="Add()" class="btn btn-success" id="">OK</a>
+                    <button type="submit" value="submit" class="btn btn-primary">Arrear Bill</button>
+
+                    
+
+                    <div class="form-group row" style="visibility: hidden">
+                        <label for="colFormLabel" class="col-sm-2 col-form-label">LWA</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="fieldnames" placeholder="" name="fieldnames">
+                        </div>
+                        <label for="colFormLabel" class="col-sm-2 col-form-label">HPL</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="hplnames" placeholder="" name="hplnames">
+                        </div>
+                    </div>
+
+                    <div class="form-group row" style="visibility: hidden">
+
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="revdate" name="revdate">
+                            </div>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="revpay" name="revpay">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="firstdate" name="firstdate">
+                            </div>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="first" name="first">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="seconddate" value="" name="seconddate">
+                            </div>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="second" name="second">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="thirddate" value="" name="thirddate">
+                            </div>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="third" name="third">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="fourthdate" value="" name="fourthdate">
+                            </div>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="fourth" name="fourth">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="fifthdate" value="" name="fifthdate">
+                            </div>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="fifth" name="fifth">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="sixthdate" value="" name="sixthdate">
+                            </div>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="sixth" name="sixth">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="oldrevdate" name="oldrevdate">
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="oldpay" name="oldpay">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="oldagp" name="oldagp">
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="oldfirstdate" name="oldfirstdate">
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="oldfirst" name="oldfirst">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="oldagpfirst" name="oldagpfirst">
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="oldseconddate" value=""
+                                    name="oldseconddate">
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="oldsecond" name="oldsecond">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="oldagpsecond" name="oldagpsecond">
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="oldthirddate" value="" name="oldthirddate">
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="oldthird" name="oldthird">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="oldagpthird" name="oldagpthird">
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="oldfourthdate" value=""
+                                    name="oldfourthdate">
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="oldfourth" name="oldfourth">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="oldagpfourth" name="oldagpfourth">
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="oldfifthdate" value="" name="oldfifthdate">
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="oldfifth" name="oldfifth">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="oldagpfifth" name="oldagpfifth">
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="oldsixthdate" value="" name="oldsixthdate">
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="oldsixth" name="oldsixth">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="oldagpsixth" name="oldagpsixth">
+                            </div>
+
+                        </div>
+                        <div class="col-sm-4" style="visibility: hidden">
+                            <input type="text" class="form-control" id="datime" placeholder="" name="datime">
+                        </div>
+                    </div>
+
+
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+
+<script>
+    $(document).ready(function () {
+        var maxField = 20;
+        var addLWA = $('.add_lwa');
+        var wrapper = $('.lwa_wrapper');
+        var fieldHTML = '<div class="col-sm-12 mb-1"><label for="colFormLabel" class="col-sm-2 col-form-label"></label><input type="date" name="field[]" value""/><input type="date" name="field[]" value""/><a href="javascript:void(0);" class="remove_lwa"><img src="/images/removebutton.png" width="25px" height="auto"/></a></div>'
+        var x = 1;
+
+        $(addLWA).click(function () {
+            if (x < maxField) {
+                x++;
+                $(wrapper).append(fieldHTML);
+            }
+        });
+        $(wrapper).on('click', '.remove_lwa', function (e) {
+            e.preventDefault();
+            $(this).parent('div').remove();
+            x--;
+        });
+
+        var maxHPL = 20;
+        var addHPL = $('.add_hpl');
+        var hplwrapper = $('.hpl_wrapper');
+        var hplHTML = '<div class="col-sm-12 mb-1"><label for="colFormLabel" class="col-sm-2 col-form-label"></label><input type="date" name="hpl[]" value""/><input type="date" name="hpl[]" value""/><a href="javascript:void(0);" class="remove_hpl"><img src="/images/removebutton.png" width="25px" height="auto"/></a></div>'
+        var y = 1;
+
+        $(addHPL).click(function () {
+            if (y < maxHPL) {
+                y++;
+                $(hplwrapper).append(hplHTML);
+            }
+        });
+        $(hplwrapper).on('click', '.remove_hpl', function (e) {
+            e.preventDefault();
+            $(this).parent('div').remove();
+            y--;
+        });
+    });
+
+
+
+
+    function Add() {
+        var pay = document.form.pay.value;
+        var oldpay = document.form.pay.value;
+        var agp = document.form.agp.value;
+        document.form.oldpay.value = pay;
+        document.form.oldagp.value = agp;
+
+        var revdate = "2016-01-01"
+        var firstdate = "2016-07-01"
+        var seconddate = "2017-07-01"
+        var thirddate = "2018-07-01"
+        var fourthdate = "2019-07-01"
+        var fifthdate = "2020-07-01"
+        var sixthdate = "2021-07-01"
+
+        var num1 = eval(pay + "+" + agp) * 2.57;
+
+
+        if (agp == 6000) {
+            ep = 57700;
+        } else if (agp == 7000) {
+            ep = 68900;
+        } else if (agp == 8000) {
+            ep = 79800;
+        } else if (agp == 9000) {
+            ep = 131400;
+        } else if (agp == 10000) {
+            ep = 144200;
+        } else {
+            ep = 182200;
+        }
+
+        for (; ep < num1;) {
+            ep = Math.round(ep * 103 / 10000) * 100;
+        }
+
+        var revpay = ep;
+        var first = Math.round(revpay * 103 / 10000) * 100;
+        var second = Math.round(first * 103 / 10000) * 100;
+        var third = Math.round(second * 103 / 10000) * 100;
+        var fourth = Math.round(third * 103 / 10000) * 100;
+        var fifth = Math.round(fourth * 103 / 10000) * 100;
+        var sixth = Math.round(fifth * 103 / 10000) * 100;
+
+        var joiningdate = document.form.joiningdate.value;
+        var promotiondate = document.form.promotiondate.value;
+        var prodate = new Date(promotiondate).getTime();
+
+        var joyear = new Date(joiningdate).getFullYear();
+        var jomonth = new Date(joiningdate).getMonth() + 1;
+        var jodate = new Date(joiningdate).getDate();
+        var promonth = new Date(promotiondate).getMonth() + 1;
+
+        var pays = [first, second, third, fourth, fifth, sixth]
+
+        var incrementdates = [firstdate, seconddate, thirddate, fourthdate, fifthdate, sixthdate];
+
+        if (joiningdate) {
+            revdate = joiningdate;
+            if (jomonth > 9) {
+                if (jodate > 9) {
+                    incrementdates[0] = joyear + 1 + '-' + jomonth + '-' + jodate
+                } else {
+                    incrementdates[0] = joyear + 1 + '-' + jomonth + '-0' + jodate
+                }
+
+            } else {
+                if (jodate > 9) {
+                    incrementdates[0] = joyear + 1 + '-0' + jomonth + '-' + jodate
+                } else {
+                    incrementdates[0] = joyear + 1 + '-0' + jomonth + '-0' + jodate
+                }
+
+            }
+
+            for (var i = 1; i < incrementdates.length; i++) {
+                if (jomonth < 7) {
+                    incrementdates[i] = joyear + 2 + '-01-01';
+                } else {
+                    incrementdates[i] = joyear + 2 + '-07-01';
+                }
+                pays[i] = Math.round(pays[i - 1] * 103 / 10000) * 100;
+                joyear = joyear + 1;
+            }
+        }
+
+        var probdate = new Date(incrementdates[0]).getTime();
+        if (joiningdate && probdate > prodate) {
+            alert("No promotion allowed on probation")
+            document.form.promotiondate.value = null;
+        }
+
+        var revisiondate = new Date(revdate).getTime();
+        var fdate = new Date(incrementdates[0]).getTime();
+        var sdate = new Date(incrementdates[1]).getTime();
+        var tdate = new Date(incrementdates[2]).getTime();
+        var fodate = new Date(incrementdates[3]).getTime();
+        var fidate = new Date(incrementdates[4]).getTime();
+        var sidate = new Date(incrementdates[5]).getTime();
+        var incdates = [revisiondate, fdate, sdate, tdate, fodate, fidate, sidate];
+
+        for (var i = 0; i < incrementdates.length; i++) {
+            if (prodate >= incdates[i] && prodate < incdates[i + 1]) {
+                var incyear = new Date(incrementdates[i]).getFullYear();
+                incrementdates[i] = promotiondate;
+                var pay = pays[i];
+                if (agp == 6000) {
+                    revep = 68900;
+                } else if (agp == 7000) {
+                    revep = 79800;
+                } else if (agp == 8000) {
+                    revep = 131400;
+                } else if (agp == 9000) {
+                    revep = 144200;
+                } else {
+                    revep = 182200;
+                }
+                for (; revep < pay;) {
+                    revep = Math.round(revep * 103 / 10000) * 100;
+                }
+                pays[i] = revep;
+                var k = i;
+                i = incrementdates.length;
+            }
+        }
+
+        for (var j = k + 1; j < incrementdates.length; j++) {
+            if (promonth < 7) {
+                if (joiningdate) {
+                    incrementdates[j] = incyear + '-01-01';
+                } else {
+                    incrementdates[j] = incyear + 1 + '-01-01';
+                }
+
+            } else {
+                incrementdates[j] = incyear + '-07-01';
+            }
+            pays[j] = Math.round(pays[j - 1] * 103 / 10000) * 100;
+            incyear = incyear + 1;
+        }
+
+        var firstdate = incrementdates[0]
+        var seconddate = incrementdates[1]
+        var thirddate = incrementdates[2]
+        var fourthdate = incrementdates[3]
+        var fifthdate = incrementdates[4]
+        var sixthdate = incrementdates[5]
+
+        var first = pays[0]
+        var second = pays[1]
+        var third = pays[2]
+        var fourth = pays[3]
+        var fifth = pays[4]
+        var sixth = pays[5]
+
+        document.form.revdate.value = revdate;
+        document.form.firstdate.value = firstdate;
+        document.form.seconddate.value = seconddate;
+        document.form.thirddate.value = thirddate;
+        document.form.fourthdate.value = fourthdate;
+        document.form.fifthdate.value = fifthdate;
+        document.form.sixthdate.value = sixthdate;
+
+        document.form.revpay.value = revpay;
+        document.form.first.value = first;
+        document.form.second.value = second;
+        document.form.third.value = third;
+        document.form.fourth.value = fourth;
+        document.form.fifth.value = fifth;
+        document.form.sixth.value = sixth;
+
+        var oldrevdate = "2016-01-01"
+        var oldfirstdate = "2016-07-01"
+        var oldseconddate = "2017-07-01"
+        var oldthirddate = "2018-07-01"
+        var oldfourthdate = "2019-07-01"
+        var oldfifthdate = "2020-07-01"
+        var oldsixthdate = "2021-07-01"
+
+        function incrementpay(payinput, agpinput) {
+            var increment = (eval(payinput) + eval(payinput + "+" + agpinput) * 3 / 100);
+            if (increment % 10 < 1) {
+                increment = increment - increment % 10;
+            } else {
+                increment = increment - increment % 10 + 10;
+            }
+            return increment;
+        }
+
+        var oldfirst = incrementpay(oldpay, agp);
+        var oldsecond = incrementpay(oldfirst, agp);
+        var oldthird = incrementpay(oldsecond, agp);
+        var oldfourth = incrementpay(oldthird, agp);
+        var oldfifth = incrementpay(oldfourth, agp);
+        var oldsixth = incrementpay(oldfifth, agp);
+
+        var oldpromotiondate = document.form.promotiondate.value;
+        var oldprodate = new Date(oldpromotiondate).getTime();
+        var oldrevisiondate = new Date(oldrevdate).getTime();
+        var oldfdate = new Date(oldfirstdate).getTime();
+        var oldsdate = new Date(oldseconddate).getTime();
+        var oldtdate = new Date(oldthirddate).getTime();
+        var oldfodate = new Date(oldfourthdate).getTime();
+        var oldfidate = new Date(oldfifthdate).getTime();
+        var oldsidate = new Date(oldsixthdate).getTime();
+        var oldpromonth = new Date(oldpromotiondate).getMonth() + 1;
+
+        var oldpays = [oldfirst, oldsecond, oldthird, oldfourth, oldfifth, oldsixth]
+
+        var oldincrementdates = [oldfirstdate, oldseconddate, oldthirddate, oldfourthdate, oldfifthdate, oldsixthdate];
+        var oldagps = [agp, agp, agp, agp, agp, agp]
+
+        if (joiningdate) {
+            oldrevdate = joiningdate;
+            oldincrementdates[0] = document.form.firstdate.value;
+            var oldjoyear = new Date(oldincrementdates[0]).getFullYear();
+            for (var i = 1; i < oldincrementdates.length; i++) {
+                oldincrementdates[i] = oldjoyear + 1 + '-07-01';
+                oldjoyear = oldjoyear + 1;
+            }
+        }
+
+        var oldrevisiondate = new Date(oldrevdate).getTime();
+        var oldfdate = new Date(oldincrementdates[0]).getTime();
+        var oldsdate = new Date(oldincrementdates[1]).getTime();
+        var oldtdate = new Date(oldincrementdates[2]).getTime();
+        var oldfodate = new Date(oldincrementdates[3]).getTime();
+        var oldfidate = new Date(oldincrementdates[4]).getTime();
+        var oldsidate = new Date(oldincrementdates[5]).getTime();
+        var oldincdates = [oldrevisiondate, oldfdate, oldsdate, oldtdate, oldfodate, oldfidate, oldsidate];
+
+        var k = 0;
+        for (var i = 0; i < oldincrementdates.length; i++) {
+            if (oldprodate >= oldincdates[i] && oldprodate < oldincdates[i + 1]) {
+                var oldincyear = new Date(oldincrementdates[i]).getFullYear();
+                oldincrementdates[i] = oldpromotiondate;
+                oldagps[i] = eval(agp) + 1000
+                k = i;
+                i = oldincrementdates.length;
+            }
+        }
+        if (oldprodate) {
+            for (var j = k + 1; j < oldincrementdates.length; j++) {
+                oldincrementdates[j] = oldincyear + '-07-01';
+                oldincyear = oldincyear + 1;
+                oldagps[j] = eval(agp) + 1000
+                oldpays[j] = incrementpay(oldpays[j - 1], oldagps[j])
+            }
+
+            if (promonth < 7) {
+                if (k == 0) {
+                    oldpays[k] = oldpay
+                } else {
+                    oldpays[k] = oldpays[k - 1]
+                }
+            }
+        }
+
+        var oldfirstdate = oldincrementdates[0]
+        var oldseconddate = oldincrementdates[1]
+        var oldthirddate = oldincrementdates[2]
+        var oldfourthdate = oldincrementdates[3]
+        var oldfifthdate = oldincrementdates[4]
+        var oldsixthdate = oldincrementdates[5]
+
+        var oldfirst = oldpays[0]
+        var oldsecond = oldpays[1]
+        var oldthird = oldpays[2]
+        var oldfourth = oldpays[3]
+        var oldfifth = oldpays[4]
+        var oldsixth = oldpays[5]
+
+        var oldfirstagp = oldagps[0]
+        var oldsecondagp = oldagps[1]
+        var oldthirdagp = oldagps[2]
+        var oldfourthagp = oldagps[3]
+        var oldfifthagp = oldagps[4]
+        var oldsixthagp = oldagps[5]
+
+        document.form.oldrevdate.value = oldrevdate;
+        document.form.oldfirstdate.value = oldfirstdate;
+        document.form.oldseconddate.value = oldseconddate;
+        document.form.oldthirddate.value = oldthirddate;
+        document.form.oldfourthdate.value = oldfourthdate;
+        document.form.oldfifthdate.value = oldfifthdate;
+        document.form.oldsixthdate.value = oldsixthdate;
+
+        document.form.oldfirst.value = oldfirst;
+        document.form.oldsecond.value = oldsecond;
+        document.form.oldthird.value = oldthird;
+        document.form.oldfourth.value = oldfourth;
+        document.form.oldfifth.value = oldfifth;
+        document.form.oldsixth.value = oldsixth;
+
+        document.form.oldagpfirst.value = oldfirstagp;
+        document.form.oldagpsecond.value = oldsecondagp;
+        document.form.oldagpthird.value = oldthirdagp;
+        document.form.oldagpfourth.value = oldfourthagp;
+        document.form.oldagpfifth.value = oldfifthagp;
+        document.form.oldagpsixth.value = oldsixthagp;
+
+        var lwa = $("input[name='field[]']").map(function () { return $(this).val(); }).get();
+        document.form.fieldnames.value = lwa;
+        var hpl = $("input[name='hpl[]']").map(function () { return $(this).val(); }).get();
+        document.form.hplnames.value = hpl;
+        document.form.datime.value = new Date(document.form.revdate.value).getTime() - 86400000;
+    }
+
+
+
+
+
+</script>
