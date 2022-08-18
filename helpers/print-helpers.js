@@ -140,14 +140,7 @@ module.exports = {
         
 
 
-        async function sub() {
-
-            await main().catch(function (err) {
-                console.log(`Error converting file: ${err}`);
-            });
-
-
-
+        function sub() {
             const outputPath = path.join(__dirname, `../files/letter.pdf`);
         fs.readFile(outputPath, (err, data) => {
             if (err) {
@@ -160,11 +153,14 @@ module.exports = {
         })
         }
 
-        
+        async function mainsub() {
+        await main().catch(function (err) {
+            console.log(`Error converting file: ${err}`);
+        });
         sub()
+        }
 
-
-
+        mainsub()
 
     }
 
