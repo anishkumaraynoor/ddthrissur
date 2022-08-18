@@ -153,8 +153,8 @@ module.exports = {
         })
         }
 
-        async function mainsub() {
-        await main().catch(function (err) {
+        function mainsub() {
+        main().catch(function (err) {
             console.log(`Error converting file: ${err}`);
         });
         sub()
