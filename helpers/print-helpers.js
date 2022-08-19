@@ -134,7 +134,7 @@ module.exports = {
       // Here in done you have pdf file which you can save or transfer in another stream
       await fsn.writeFile(outputPath, pdfBuf); 
 
-  await fsn.readFile(outputPath, (err, data) => {
+  fs.readFile(outputPath, (err, data) => {
     if (err) {
       res.statusCode = 500;
       res.end(err);
