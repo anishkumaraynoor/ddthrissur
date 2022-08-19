@@ -64,7 +64,7 @@ module.exports = {
       throw error;
     }
     var page = pagename;
-    var content = fs.readFileSync(path.resolve(__dirname, page), 'binary');
+    var content = fs.readFileSync(path.resolve(__dirname, page));
     var zip = new PizZip(content);
     var doc;
 
