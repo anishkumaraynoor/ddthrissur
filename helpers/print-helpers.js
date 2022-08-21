@@ -7,8 +7,8 @@
 
 
 
-
 'use strict';
+const { PDFNet } = require('@pdftron/pdfnet-node');
 var PizZip = require('pizzip');
 var Docxtemplater = require('docxtemplater');
 const path = require('path');
@@ -18,16 +18,26 @@ const libre = require('libreoffice-convert');
 libre.convertAsync = require('util').promisify(libre.convert);
 var moment = require('moment');
 
+
+
 var a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine ', 'ten ', 'eleven ', 'twelve ', 'thirteen ', 'fourteen ', 'fifteen ', 'sixteen ', 'seventeen ', 'eighteen ', 'nineteen '];
 var b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
 
 module.exports = {
   printWork: (body, pagename, res) => {
-    var staff = body.staff;
-    var stafffull = "Non Teaching Staff";
-    if (staff === "TS") {
-      stafffull = "Teaching Staff";
+    var prebalance = eval(body.preconsolidated+"-"+body.remitted);
+    var consolidated = eval(body.amount+"+"+prebalance);
+    var instalmentamount = eval(consolidated+"/"+body.instalments);
+    var allowed = eval(body.arrears+"-"+body.notallowed);
+    var total = eval(body.credit+"+"+body.subscription+"+"+body.refund+"+"+allowed+"-"+body.totaladvance);
+    var permissible = eval(total+"*"+3+"-"+prebalance)/4;
+    var repayment = "being repaid";
+    if (prebalance == 0){
+      repayment = "";
     }
+    var firstmonth = "4/"+body.ccyear.substr(5,2);
+
+    
     var dat = body.date;
     var date = moment(dat, "YYYY/MM/DD").format("DD/MM/YYYY")
 
@@ -63,8 +73,9 @@ module.exports = {
       }
       throw error;
     }
+
     var page = pagename;
-    var content = fs.readFileSync(path.resolve(__dirname, page));
+    var content = fs.readFileSync(path.resolve(__dirname, page), 'binary');
     var zip = new PizZip(content);
     var doc;
 
@@ -83,7 +94,6 @@ module.exports = {
       billno: body.billno,
       date: date,
       billtype: body.billtype,
-      staff: body.staff,
       college: body.college,
       period: body.period,
       net: body.net,
@@ -91,7 +101,6 @@ module.exports = {
       account: body.account,
       treasury: body.treasury,
       rupeewords: rupeewords,
-      stafffull: stafffull,
       fileno: body.fileno,
       name: body.name,
       designation: body.designation,
@@ -105,7 +114,34 @@ module.exports = {
       lrno: body.lrno,
       lrdate: body.lrdate,
       colno: body.colno,
-      coldate: body.coldate
+      coldate: body.coldate,
+      pen:body.pen,
+      pfno:body.pfno,
+      basic:body.basic,
+      preadvance:body.preadvance,
+      drawdate:body.drawdate,
+      preno:body.preno,
+      predate:body.predate,
+      amount:body.amount,
+      object:body.object,
+      credit:body.credit,
+      prebalance:prebalance,
+      subscription:body.subscription,
+      refund:body.refund,
+      arrears:body.arrears,
+      notallowed:body.notallowed,
+      ccyear:body.ccyear,
+      instalments:body.instalments,
+      consolidated:consolidated,
+      instalmentamount:instalmentamount,
+      allowed:allowed,
+      total:total,
+      remitted:body.remitted,
+      permissible:permissible,
+      repayment:repayment,
+      lastmonth: body.lastmonth,
+      firstmonth: firstmonth,
+      totaladvance: body.totaladvance
 
 
     });
@@ -133,17 +169,15 @@ module.exports = {
       
       // Here in done you have pdf file which you can save or transfer in another stream
       await fsn.writeFile(outputPath, pdfBuf); 
-
-  fs.readFile(outputPath, (err, data) => {
-    if (err) {
-      res.statusCode = 500;
-      res.end(err);
-    } else {
-      res.setHeader('ContentType', 'application/pdf');
-      res.end(data);
-    }
-  })
-      
+      fs.readFile(outputPath, (err, data) => {
+        if (err) {
+          res.statusCode = 500;
+          res.end(err);
+        } else {
+          res.setHeader('ContentType', 'application/pdf');
+          res.end(data);
+        }
+      })
 
   }
   
@@ -157,4 +191,3 @@ module.exports = {
   }
   
 }
-

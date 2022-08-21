@@ -103,16 +103,17 @@ router.post('/edit-vimala/:id', async (req, res) => {
 })
 
 
-
-
-
-router.post('/add-form', (req, res) => {
+router.post('/add-form', async (req, res) => {
   var page = `../files/letter.docx`;
   var collectname = collection.FORM_COLLECTION;
-  pensionHelpers.addItem(req.body,collectname,(id) => {
-    printHelpers.printWork(req.body,page,res);
+  pensionHelpers.addItem(req.body,collectname,(id)=>{
+  printHelpers.printWork(req.body,page,res);
   });
 });
+
+
+
+
 
 router.get('/view-forms', function (req, res, next) {
   let user = req.session.user;
