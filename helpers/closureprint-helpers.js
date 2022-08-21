@@ -19,15 +19,18 @@ var b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eigh
 
 module.exports = {
   printWork: (body, pagename, res) => {
-    var total = eval(body.credit + "+" + body.subloan + "+" + body.arrears);
-    var balance = eval(total + "-" + body.loan);
-    var certificate = "അവസാന ക്രെഡിറ്റ് കാര്‍ഡിനു ശേഷം എടുത്ത വായ്പകളുടെ സാങ്ഷന്‍ ഓര്‍ഡര്‍";
-    if (body.loan == 0) {
-      certificate = "അവസാന ക്രെഡിറ്റ് കാര്‍ഡിനു ശേഷം വായ്പ എടുത്തിട്ടില്ലെന്ന സാക്ഷ്യപത്രം";
-    }
 
-    var dat = body.date;
-    var date = moment(dat, "YYYY/MM/DD").format("DD/MM/YYYY")
+    var total = eval(body.credit + "+" + body.subloan + "+" + body.arrears);
+var balance = eval(total + "-" + body.loan);
+var certificate = "അവസാന ക്രെഡിറ്റ് കാര്‍ഡിനു ശേഷം എടുത്ത വായ്പകളുടെ സാങ്ഷന്‍ ഓര്‍ഡര്‍";
+if (body.loan == 0) {
+certificate = "അവസാന ക്രെഡിറ്റ് കാര്‍ഡിനു ശേഷം വായ്പ എടുത്തിട്ടില്ലെന്ന സാക്ഷ്യപത്രം";
+}
+
+var dat = body.date;
+var date = moment(dat, "YYYY/MM/DD").format("DD/MM/YYYY")
+
+    
 
     function inWords(num) {
       if ((num = num.toString()).length > 9) return 'overflow';
@@ -79,23 +82,22 @@ module.exports = {
 
     doc.setData({
       date: date,
-      college: body.college,
-      malayalam: body.malayalam,
-      fileno: body.fileno,
-      name: body.name,
-      designation: body.designation,
-      lrno: body.lrno,
-      lrdate: body.lrdate,
-      credit: body.credit,
-      subloan: body.subloan,
-      arrears: body.arrears,
-      loan: body.loan,
-      ccyear: body.ccyear,
-      total: total,
-      balance: balance,
-      certificate: certificate,
-      retirement: body.retirement
-
+college: body.college,
+malayalam: body.malayalam,
+fileno: body.fileno,
+name: body.name,
+designation: body.designation,
+lrno: body.lrno,
+lrdate: body.lrdate,
+credit: body.credit,
+subloan: body.subloan,
+arrears: body.arrears,
+loan: body.loan,
+ccyear: body.ccyear,
+total: total,
+balance: balance,
+certificate: certificate,
+retirement: body.retirement
 
     });
 
