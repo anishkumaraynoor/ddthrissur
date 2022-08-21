@@ -6,19 +6,13 @@
 
 
 
-
-'use strict';
 const { PDFNet } = require('@pdftron/pdfnet-node');
+
 var PizZip = require('pizzip');
 var Docxtemplater = require('docxtemplater');
 const path = require('path');
 const fs = require('fs');
-const fsn = fs.promises;
-const libre = require('libreoffice-convert');
-libre.convertAsync = require('util').promisify(libre.convert);
 var moment = require('moment');
-
-
 
 var a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine ', 'ten ', 'eleven ', 'twelve ', 'thirteen ', 'fourteen ', 'fifteen ', 'sixteen ', 'seventeen ', 'eighteen ', 'nineteen '];
 var b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
@@ -35,9 +29,14 @@ module.exports = {
     if (prebalance == 0){
       repayment = "";
     }
-    var firstmonth = "4/"+body.ccyear.substr(5,2);
-
     
+
+    var staff = body.staff;
+    if (staff === "TS") {
+      stafffull = "Teaching Staff";
+    } else {
+      stafffull = "Non Teaching Staff";
+    }
     var dat = body.date;
     var date = moment(dat, "YYYY/MM/DD").format("DD/MM/YYYY")
 
@@ -73,7 +72,6 @@ module.exports = {
       }
       throw error;
     }
-
     var page = pagename;
     var content = fs.readFileSync(path.resolve(__dirname, page), 'binary');
     var zip = new PizZip(content);
@@ -94,6 +92,7 @@ module.exports = {
       billno: body.billno,
       date: date,
       billtype: body.billtype,
+      staff: body.staff,
       college: body.college,
       period: body.period,
       net: body.net,
@@ -101,6 +100,7 @@ module.exports = {
       account: body.account,
       treasury: body.treasury,
       rupeewords: rupeewords,
+      stafffull: stafffull,
       fileno: body.fileno,
       name: body.name,
       designation: body.designation,
@@ -140,7 +140,7 @@ module.exports = {
       permissible:permissible,
       repayment:repayment,
       lastmonth: body.lastmonth,
-      firstmonth: firstmonth,
+      
       totaladvance: body.totaladvance
 
 
@@ -155,20 +155,15 @@ module.exports = {
 
     var buf = doc.getZip().generate({ type: 'nodebuffer' });
     fs.writeFileSync(path.resolve(__dirname, `../files/letterreplace.docx`), buf);
-
-    async function main() {
-      const ext = '.pdf'
-      const inputPath = path.join(__dirname, `../files/letterreplace.docx`);
-      const outputPath = path.join(__dirname, `../files/letter.pdf`);
-  
-      // Read file
-      const docxBuf = await fsn.readFile(inputPath);
-  
-      // Convert it to pdf format with undefined filter (see Libreoffice docs about filter)
-      let pdfBuf = await libre.convertAsync(docxBuf, ext, undefined);
-      
-      // Here in done you have pdf file which you can save or transfer in another stream
-      await fsn.writeFile(outputPath, pdfBuf); 
+    const inputPath = path.resolve(__dirname, `../files/letterreplace.docx`);
+    const outputPath = path.resolve(__dirname, `../files/letter.pdf`);
+    const convertToPdf = async () => {
+      const pdfdoc = await PDFNet.PDFDoc.create();
+      await pdfdoc.initSecurityHandler();
+      await PDFNet.Convert.toPdf(pdfdoc, inputPath);
+      pdfdoc.save(outputPath, PDFNet.SDFDoc.SaveOptions.e_linearized);
+    }
+    PDFNet.runWithCleanup(convertToPdf, 'demo:1661062729609:7a0ea5f403000000003be411797b7fe2898ac3046f9406f7bb056e53ae').then(() => {
       fs.readFile(outputPath, (err, data) => {
         if (err) {
           res.statusCode = 500;
@@ -178,16 +173,9 @@ module.exports = {
           res.end(data);
         }
       })
-
+    }).catch(err => {
+      res.statusCode = 500;
+      res.end(err);
+    })
   }
-  
-  main().catch(function (err) {
-      console.log(`Error converting file: ${err}`);
-  });
-  
-  
-  
-    
-  }
-  
 }
