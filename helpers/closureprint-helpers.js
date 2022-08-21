@@ -5,15 +5,13 @@
 
 
 
-'use strict';
+
 const { PDFNet } = require('@pdftron/pdfnet-node');
+
 var PizZip = require('pizzip');
 var Docxtemplater = require('docxtemplater');
 const path = require('path');
 const fs = require('fs');
-const fsn = fs.promises;
-const libre = require('libreoffice-convert');
-libre.convertAsync = require('util').promisify(libre.convert);
 var moment = require('moment');
 
 var a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine ', 'ten ', 'eleven ', 'twelve ', 'thirteen ', 'fourteen ', 'fifteen ', 'sixteen ', 'seventeen ', 'eighteen ', 'nineteen '];
@@ -21,11 +19,10 @@ var b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eigh
 
 module.exports = {
   printWork: (body, pagename, res) => {
-    var total = eval(body.credit+"+"+body.subloan+"+"+body.arrears);
-    var balance = eval(total+"-"+body.loan);
-    
+    var total = eval(body.credit + "+" + body.subloan + "+" + body.arrears);
+    var balance = eval(total + "-" + body.loan);
     var certificate = "അവസാന ക്രെഡിറ്റ് കാര്‍ഡിനു ശേഷം എടുത്ത വായ്പകളുടെ സാങ്ഷന്‍ ഓര്‍ഡര്‍";
-    if (body.loan == 0){
+    if (body.loan == 0) {
       certificate = "അവസാന ക്രെഡിറ്റ് കാര്‍ഡിനു ശേഷം വായ്പ എടുത്തിട്ടില്ലെന്ന സാക്ഷ്യപത്രം";
     }
 
@@ -82,22 +79,22 @@ module.exports = {
 
     doc.setData({
       date: date,
-college: body.college,
-malayalam: body.malayalam,
-fileno: body.fileno,
-name: body.name,
-designation: body.designation,
-lrno: body.lrno,
-lrdate: body.lrdate,
-credit:body.credit,
-subloan:body.subloan,
-arrears:body.arrears,
-loan:body.loan,
-ccyear:body.ccyear,
-total:total,
-balance:balance,
-certificate: certificate,
-retirement: body.retirement
+      college: body.college,
+      malayalam: body.malayalam,
+      fileno: body.fileno,
+      name: body.name,
+      designation: body.designation,
+      lrno: body.lrno,
+      lrdate: body.lrdate,
+      credit: body.credit,
+      subloan: body.subloan,
+      arrears: body.arrears,
+      loan: body.loan,
+      ccyear: body.ccyear,
+      total: total,
+      balance: balance,
+      certificate: certificate,
+      retirement: body.retirement
 
 
     });
@@ -109,26 +106,17 @@ retirement: body.retirement
       errorHandler(error);
     }
 
-
-
-
-
     var buf = doc.getZip().generate({ type: 'nodebuffer' });
     fs.writeFileSync(path.resolve(__dirname, `../files/letterreplace.docx`), buf);
-
-    async function main() {
-      const ext = '.pdf'
-      const inputPath = path.join(__dirname, `../files/letterreplace.docx`);
-      const outputPath = path.join(__dirname, `../files/letter.pdf`);
-  
-      // Read file
-      const docxBuf = await fsn.readFile(inputPath);
-  
-      // Convert it to pdf format with undefined filter (see Libreoffice docs about filter)
-      let pdfBuf = await libre.convertAsync(docxBuf, ext, undefined);
-      
-      // Here in done you have pdf file which you can save or transfer in another stream
-      await fsn.writeFile(outputPath, pdfBuf); 
+    const inputPath = path.resolve(__dirname, `../files/letterreplace.docx`);
+    const outputPath = path.resolve(__dirname, `../files/letter.pdf`);
+    const convertToPdf = async () => {
+      const pdfdoc = await PDFNet.PDFDoc.create();
+      await pdfdoc.initSecurityHandler();
+      await PDFNet.Convert.toPdf(pdfdoc, inputPath);
+      pdfdoc.save(outputPath, PDFNet.SDFDoc.SaveOptions.e_linearized);
+    }
+    PDFNet.runWithCleanup(convertToPdf, 'demo:1661062729609:7a0ea5f403000000003be411797b7fe2898ac3046f9406f7bb056e53ae').then(() => {
       fs.readFile(outputPath, (err, data) => {
         if (err) {
           res.statusCode = 500;
@@ -138,16 +126,9 @@ retirement: body.retirement
           res.end(data);
         }
       })
-
+    }).catch(err => {
+      res.statusCode = 500;
+      res.end(err);
+    })
   }
-  
-  main().catch(function (err) {
-      console.log(`Error converting file: ${err}`);
-  });
-  
-  
-  
-    
-  }
-  
 }

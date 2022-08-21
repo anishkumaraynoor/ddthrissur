@@ -19,17 +19,6 @@ var b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eigh
 
 module.exports = {
   printWork: (body, pagename, res) => {
-    var prebalance = eval(body.preconsolidated+"-"+body.remitted);
-    var consolidated = eval(body.amount+"+"+prebalance);
-    var instalmentamount = eval(consolidated+"/"+body.instalments);
-    var allowed = eval(body.arrears+"-"+body.notallowed);
-    var total = eval(body.credit+"+"+body.subscription+"+"+body.refund+"+"+allowed+"-"+body.totaladvance);
-    var permissible = eval(total+"*"+3+"-"+prebalance)/4;
-    var repayment = "being repaid";
-    if (prebalance == 0){
-      repayment = "";
-    }
-    
 
     var staff = body.staff;
     if (staff === "TS") {
@@ -114,36 +103,7 @@ module.exports = {
       lrno: body.lrno,
       lrdate: body.lrdate,
       colno: body.colno,
-      coldate: body.coldate,
-      pen:body.pen,
-      pfno:body.pfno,
-      basic:body.basic,
-      preadvance:body.preadvance,
-      drawdate:body.drawdate,
-      preno:body.preno,
-      predate:body.predate,
-      amount:body.amount,
-      object:body.object,
-      credit:body.credit,
-      prebalance:prebalance,
-      subscription:body.subscription,
-      refund:body.refund,
-      arrears:body.arrears,
-      notallowed:body.notallowed,
-      ccyear:body.ccyear,
-      instalments:body.instalments,
-      consolidated:consolidated,
-      instalmentamount:instalmentamount,
-      allowed:allowed,
-      total:total,
-      remitted:body.remitted,
-      permissible:permissible,
-      repayment:repayment,
-      lastmonth: body.lastmonth,
-      
-      totaladvance: body.totaladvance
-
-
+      coldate: body.coldate
     });
 
     try {

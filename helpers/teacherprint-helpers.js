@@ -6,15 +6,12 @@
 
 
 
-'use strict';
 const { PDFNet } = require('@pdftron/pdfnet-node');
+
 var PizZip = require('pizzip');
 var Docxtemplater = require('docxtemplater');
 const path = require('path');
 const fs = require('fs');
-const fsn = fs.promises;
-const libre = require('libreoffice-convert');
-libre.convertAsync = require('util').promisify(libre.convert);
 var moment = require('moment');
 
 var a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine ', 'ten ', 'eleven ', 'twelve ', 'thirteen ', 'fourteen ', 'fifteen ', 'sixteen ', 'seventeen ', 'eighteen ', 'nineteen '];
@@ -27,6 +24,7 @@ module.exports = {
     var balanceteachers = (balanceworkload - balanceworkload % 16) / 16;
     var dat = body.date;
     var date = moment(dat, "YYYY/MM/DD").format("DD/MM/YYYY")
+
 
     function inWords(num) {
       if ((num = num.toString()).length > 9) return 'overflow';
@@ -76,12 +74,12 @@ module.exports = {
       rupeewords = null;
     }
 
-    doc.setData({  
-      date: date,  
+    doc.setData({
+      date: date,
       college: body.college,
       fileno: body.fileno,
       name: body.name,
-      designation: body.designation, 
+      designation: body.designation,
       lrno: body.lrno,
       lrdate: body.lrdate,
       subject: body.subject,
@@ -111,16 +109,17 @@ module.exports = {
       managerlrno: body.managerlrno,
       managerlrdate: body.managerlrdate,
       paper1: body.paper1,
-      paper2:body.paper2,
-      paper3:body.paper3,
-      paper4:body.paper4,
-      paperdate1:body.paperdate1,
-      paperdate2:body.paperdate2,
-      paperdate3:body.paperdate3,
-      paperdate4:body.paperdate4,
+      paper2: body.paper2,
+      paper3: body.paper3,
+      paper4: body.paper4,
+      paperdate1: body.paperdate1,
+      paperdate2: body.paperdate2,
+      paperdate3: body.paperdate3,
+      paperdate4: body.paperdate4,
       members: body.members,
       mundertaking: body.mundertaking,
       cundertaking: body.cundertaking
+
 
     });
 
@@ -133,20 +132,15 @@ module.exports = {
 
     var buf = doc.getZip().generate({ type: 'nodebuffer' });
     fs.writeFileSync(path.resolve(__dirname, `../files/letterreplace.docx`), buf);
-
-    async function main() {
-      const ext = '.pdf'
-      const inputPath = path.join(__dirname, `../files/letterreplace.docx`);
-      const outputPath = path.join(__dirname, `../files/letter.pdf`);
-  
-      // Read file
-      const docxBuf = await fsn.readFile(inputPath);
-  
-      // Convert it to pdf format with undefined filter (see Libreoffice docs about filter)
-      let pdfBuf = await libre.convertAsync(docxBuf, ext, undefined);
-      
-      // Here in done you have pdf file which you can save or transfer in another stream
-      await fsn.writeFile(outputPath, pdfBuf); 
+    const inputPath = path.resolve(__dirname, `../files/letterreplace.docx`);
+    const outputPath = path.resolve(__dirname, `../files/letter.pdf`);
+    const convertToPdf = async () => {
+      const pdfdoc = await PDFNet.PDFDoc.create();
+      await pdfdoc.initSecurityHandler();
+      await PDFNet.Convert.toPdf(pdfdoc, inputPath);
+      pdfdoc.save(outputPath, PDFNet.SDFDoc.SaveOptions.e_linearized);
+    }
+    PDFNet.runWithCleanup(convertToPdf, 'demo:1661062729609:7a0ea5f403000000003be411797b7fe2898ac3046f9406f7bb056e53ae').then(() => {
       fs.readFile(outputPath, (err, data) => {
         if (err) {
           res.statusCode = 500;
@@ -156,16 +150,9 @@ module.exports = {
           res.end(data);
         }
       })
-
+    }).catch(err => {
+      res.statusCode = 500;
+      res.end(err);
+    })
   }
-  
-  main().catch(function (err) {
-      console.log(`Error converting file: ${err}`);
-  });
-  
-  
-  
-    
-  }
-  
 }

@@ -6,38 +6,31 @@
 
 
 
-
-'use strict';
 const { PDFNet } = require('@pdftron/pdfnet-node');
+
 var PizZip = require('pizzip');
 var Docxtemplater = require('docxtemplater');
 const path = require('path');
 const fs = require('fs');
-const fsn = fs.promises;
-const libre = require('libreoffice-convert');
-libre.convertAsync = require('util').promisify(libre.convert);
 var moment = require('moment');
-
-
 
 var a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine ', 'ten ', 'eleven ', 'twelve ', 'thirteen ', 'fourteen ', 'fifteen ', 'sixteen ', 'seventeen ', 'eighteen ', 'nineteen '];
 var b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
 
 module.exports = {
   printWork: (body, pagename, res) => {
-    var prebalance = eval(body.preconsolidated+"-"+body.remitted);
-    var consolidated = eval(body.amount+"+"+prebalance);
-    var instalmentamount = eval(consolidated+"/"+body.instalments);
-    var allowed = eval(body.arrears+"-"+body.notallowed);
-    var total = eval(body.credit+"+"+body.subscription+"+"+body.refund+"+"+allowed+"-"+body.totaladvance);
-    var permissible = eval(total+"*"+3+"-"+prebalance)/4;
+    var prebalance = eval(body.preconsolidated + "-" + body.remitted);
+    var consolidated = eval(body.amount + "+" + prebalance);
+    var instalmentamount = eval(consolidated + "/" + body.instalments);
+    var allowed = eval(body.arrears + "-" + body.notallowed);
+    var total = eval(body.credit + "+" + body.subscription + "+" + body.refund + "+" + allowed + "-" + body.totaladvance);
+    var permissible = eval(total + "*" + 3 + "-" + prebalance) / 4;
     var repayment = "being repaid";
-    if (prebalance == 0){
+    if (prebalance == 0) {
       repayment = "";
     }
-    var firstmonth = "4/"+body.ccyear.substr(5,2);
+    var firstmonth = "4/" + body.ccyear.substr(5, 2);
 
-    
     var dat = body.date;
     var date = moment(dat, "YYYY/MM/DD").format("DD/MM/YYYY")
 
@@ -73,7 +66,6 @@ module.exports = {
       }
       throw error;
     }
-
     var page = pagename;
     var content = fs.readFileSync(path.resolve(__dirname, page), 'binary');
     var zip = new PizZip(content);
@@ -115,34 +107,33 @@ module.exports = {
       lrdate: body.lrdate,
       colno: body.colno,
       coldate: body.coldate,
-      pen:body.pen,
-      pfno:body.pfno,
-      basic:body.basic,
-      preadvance:body.preadvance,
-      drawdate:body.drawdate,
-      preno:body.preno,
-      predate:body.predate,
-      amount:body.amount,
-      object:body.object,
-      credit:body.credit,
-      prebalance:prebalance,
-      subscription:body.subscription,
-      refund:body.refund,
-      arrears:body.arrears,
-      notallowed:body.notallowed,
-      ccyear:body.ccyear,
-      instalments:body.instalments,
-      consolidated:consolidated,
-      instalmentamount:instalmentamount,
-      allowed:allowed,
-      total:total,
-      remitted:body.remitted,
-      permissible:permissible,
-      repayment:repayment,
+      pen: body.pen,
+      pfno: body.pfno,
+      basic: body.basic,
+      preadvance: body.preadvance,
+      drawdate: body.drawdate,
+      preno: body.preno,
+      predate: body.predate,
+      amount: body.amount,
+      object: body.object,
+      credit: body.credit,
+      prebalance: prebalance,
+      subscription: body.subscription,
+      refund: body.refund,
+      arrears: body.arrears,
+      notallowed: body.notallowed,
+      ccyear: body.ccyear,
+      instalments: body.instalments,
+      consolidated: consolidated,
+      instalmentamount: instalmentamount,
+      allowed: allowed,
+      total: total,
+      remitted: body.remitted,
+      permissible: permissible,
+      repayment: repayment,
       lastmonth: body.lastmonth,
       firstmonth: firstmonth,
       totaladvance: body.totaladvance
-
 
     });
 
@@ -155,20 +146,15 @@ module.exports = {
 
     var buf = doc.getZip().generate({ type: 'nodebuffer' });
     fs.writeFileSync(path.resolve(__dirname, `../files/letterreplace.docx`), buf);
-
-    async function main() {
-      const ext = '.pdf'
-      const inputPath = path.join(__dirname, `../files/letterreplace.docx`);
-      const outputPath = path.join(__dirname, `../files/letter.pdf`);
-  
-      // Read file
-      const docxBuf = await fsn.readFile(inputPath);
-  
-      // Convert it to pdf format with undefined filter (see Libreoffice docs about filter)
-      let pdfBuf = await libre.convertAsync(docxBuf, ext, undefined);
-      
-      // Here in done you have pdf file which you can save or transfer in another stream
-      await fsn.writeFile(outputPath, pdfBuf); 
+    const inputPath = path.resolve(__dirname, `../files/letterreplace.docx`);
+    const outputPath = path.resolve(__dirname, `../files/letter.pdf`);
+    const convertToPdf = async () => {
+      const pdfdoc = await PDFNet.PDFDoc.create();
+      await pdfdoc.initSecurityHandler();
+      await PDFNet.Convert.toPdf(pdfdoc, inputPath);
+      pdfdoc.save(outputPath, PDFNet.SDFDoc.SaveOptions.e_linearized);
+    }
+    PDFNet.runWithCleanup(convertToPdf, 'demo:1661062729609:7a0ea5f403000000003be411797b7fe2898ac3046f9406f7bb056e53ae').then(() => {
       fs.readFile(outputPath, (err, data) => {
         if (err) {
           res.statusCode = 500;
@@ -178,16 +164,9 @@ module.exports = {
           res.end(data);
         }
       })
-
+    }).catch(err => {
+      res.statusCode = 500;
+      res.end(err);
+    })
   }
-  
-  main().catch(function (err) {
-      console.log(`Error converting file: ${err}`);
-  });
-  
-  
-  
-    
-  }
-  
 }
