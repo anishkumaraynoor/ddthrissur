@@ -1,0 +1,331 @@
+<section>
+
+    <div class="container">
+        <div class="row mt-4">
+            <a href="/view-ai" class="btn btn-success ml-auto">View ai</a>
+        </div>
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <form action="/add-ai" method="POST" name="form">
+
+                        <div class="form-group row">
+                            <label for="colFormLabel" class="col-sm-2 col-form-label">File No.</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="colFormLabel" placeholder="" name="fileno">
+                            </div>
+                            <label for="colFormLabel" class="col-sm-2 col-form-label">Date</label>
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="colFormLabel" placeholder="" name="date">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="colFormLabel" class="col-sm-2 col-form-label">College</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="college" name="college">
+                                    {{#each colleges}}
+                                    <option id="{{this.treasury}}" value="{{this.college}}">{{this.college}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="" class="col-sm-2 col-form-label">Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="" name="name">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="" class="col-sm-2 col-form-label">Designation</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="" name="designation">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="" class="col-sm-2 col-form-label">Qualification</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" id="exampleFormControlSelect1" name="qualification">
+                                    <option>PhD</option>
+                                    <option>MPhil</option>
+                                </select>
+                            </div>
+                            <label for="" class="col-sm-3 col-form-label">Date of Quali.</label>
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="" name="qualificationdate">
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Date of Entry</label>
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="" name="entrydate">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="" class="col-sm-2 col-form-label">Basic Pay</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="bp" name="bp">
+                            </div>
+                            <label for="" class="col-sm-2 col-form-label">AGP</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="agp" name="agp">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="" class="col-sm-2 col-form-label">Lr No</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="" name="lrno">
+                            </div>
+                            <label for="" class="col-sm-2 col-form-label">Lr Date</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="" name="lrdate">
+                            </div>
+                        </div>
+
+                        <a onclick="Add()" class="btn btn-success" id="">OK</a>
+                        <button type="submit" class="btn btn-primary">SAVE</button>
+
+                        <div class="form-group row invisible">
+                            <label for="" class="col-sm-5 col-form-label">Treasury</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="treasury" name="treasury">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">PRIN</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="prin" name="prin">
+                            </div>
+                            <label for="" class="col-sm-3 col-form-label">RIN</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="rin" name="rin">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">AIDate</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="aidate" name="aidate">
+                            </div>
+                            <label for="" class="col-sm-3 col-form-label">First Inc</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="firstinc" name="firstinc">
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Second Inc</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="secondinc" name="secondinc">
+                            </div>
+                            <label for="" class="col-sm-3 col-form-label">Next Inc</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="nextinc" name="nextinc">
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Incdates</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="incdates" name="incdates">
+                            </div>
+                            
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="" class="col-sm-2 col-form-label">AdvPay</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="advpay" name="advpay">
+                            </div>
+                            <label for="" class="col-sm-2 col-form-label">Nextyear</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="nextyear" name="nextyear">
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+</section>
+<script>
+    function Add() {
+        var collsel = document.getElementById('college');
+        var collegeid = collsel.options[collsel.selectedIndex].id;
+        document.form.treasury.value = collegeid;
+
+        var qualification = document.form.qualification.value;
+        var dateentry = document.form.entrydate.value;
+        var entrydate = new Date(dateentry).getTime();
+        var firstinc = new Date(dateentry);
+        var year = firstinc.getFullYear()
+        var month = firstinc.getMonth()
+        var day = firstinc.getDate()
+        var datequalification = document.form.qualificationdate.value;
+        var qualificationdate = new Date(datequalification).getTime();
+        var jansix = "2006-01-01";
+        var augeight = "2008-08-31";
+        var sepeight = "2008-09-01";
+        var augeighteen = "2018-08-31";
+        var sixjan = new Date(jansix).getTime();
+        var eightaug = new Date(augeight).getTime();
+        var eightsep = new Date(sepeight).getTime();
+        var eighteenaug = new Date(augeighteen).getTime();
+        var basicpay = document.form.bp.value;
+        var agp = document.form.agp.value;
+        var prerevincnums = 0;
+        var revincnums = 0;
+        if (entrydate > qualificationdate) {
+            var aidate = entrydate;
+            var aidatefull = dateentry;
+        } else {
+            aidate = qualificationdate;
+            aidatefull = datequalification;
+        }
+
+
+        if (qualification === "PhD") {
+            if (entrydate >= qualificationdate) {
+                if (aidate >= sixjan && aidate <= eightaug) {
+                    prerevincnums = 4;
+                    revincnums = 4;
+                } else if (aidate >= eightsep && aidate <= eighteenaug) {
+                    prerevincnums = 0;
+                    revincnums = 5;
+                } else {
+                    alert("not applicable");
+                }
+            } else {
+                if (aidate >= sixjan && aidate <= eightaug) {
+                    prerevincnums = 2;
+                    revincnums = 2;
+                } else if (aidate >= eightsep && aidate <= eighteenaug) {
+                    prerevincnums = 0;
+                    revincnums = 3;
+                } else {
+                    alert("not applicable");
+                }
+            }
+        } else {
+            if (entrydate >= qualificationdate) {
+                if (aidate >= sixjan && aidate <= eightaug) {
+                    prerevincnums = 2;
+                    revincnums = 2;
+                } else if (aidate >= eightsep && aidate <= eighteenaug) {
+                    prerevincnums = 0;
+                    revincnums = 2;
+                } else {
+                    alert("not applicable");
+                }
+            } else {
+                if (aidate >= sixjan && aidate <= eightaug) {
+                    prerevincnums = 1;
+                    revincnums = 1;
+                } else if (aidate >= eightsep && aidate <= eighteenaug) {
+                    prerevincnums = 0;
+                    revincnums = 1;
+                } else {
+                    alert("not applicable");
+                }
+            }
+        }
+
+        document.form.prin.value = prerevincnums;
+        document.form.rin.value = revincnums;
+        var dateai = new Date(aidatefull);
+
+        var dd = "0" + dateai.getDate();
+        var mm = "0" + (dateai.getMonth() + 1);
+        mm = mm.slice(-2);
+        dd = dd.slice(-2);
+        var yy = dateai.getFullYear();
+        var formatdateai = dd + '-' + mm + '-' + yy;
+        document.form.aidate.value = formatdateai;
+
+        var incfirst = new Date(year + 1, month, day)
+        var dd1 = "0" + incfirst.getDate();
+        var mm1 = "0" + (incfirst.getMonth() + 1);
+        mm1 = mm1.slice(-2);
+        dd1 = dd1.slice(-2);
+        var yy1 = incfirst.getFullYear();
+        var yy2 = incfirst.getFullYear() + 1;
+        var firstincrementdate = dd1 + '-' + mm1 + '-' + yy1;
+        var secondincrementdate = '01-' + '07-' + yy2;
+        document.form.firstinc.value = firstincrementdate;
+        document.form.secondinc.value = secondincrementdate;
+
+        var firstincdate = new Date(yy1 + '-' + mm1 + '-' + dd1).getTime();
+        var secondincdate = new Date(yy2 + '-07-01').getTime();
+
+        if (aidate < firstincdate) {
+            var nextincdate = firstincrementdate;
+        } else if (aidate < secondincdate) {
+            nextincdate = secondincrementdate;
+        } else if (dateai.getMonth() + 1 < 7) {
+            nextincdate = '01-' + '07-' + yy;
+        } else {
+            nextincdate = '01-' + '07-' + (yy + 1);
+        }
+
+        document.form.nextinc.value = nextincdate;
+        var next = nextincdate.split('-')
+
+        var incdates = new Array;
+        var incpays = new Array;
+
+        function incrementpay(payinput, agpinput, incinput) {
+            var increment = (eval(payinput) + eval(payinput + "+" + agpinput) * 3 / 100 * eval(incinput));
+            if (increment % 10 < 1) {
+                increment = increment - increment % 10;
+            } else {
+                increment = increment - increment % 10 + 10;
+            }
+            return increment;
+        }
+
+        if (prerevincnums == 0) {
+            var aidatepay = incrementpay(basicpay, agp, revincnums)
+        } else {
+            aidatepay = eval(basicpay + "+" + agp) + 425 * prerevincnums
+            incdates[0] = aidate;
+            incpays[0] = incrementpay(basicpay, agp, revincnums)
+            var datenext = new Date(next[2] + '-' + next[1] + '-' + next[0])
+            var ny = datenext.getFullYear()
+            incdates[1] = datenext.getTime()
+            incdates[2] = new Date(ny+1 + '-07-01').getTime();
+            incdates[3] = new Date(ny+2 + '-07-01').getTime();
+            incdates[4] = new Date(ny+3 + '-07-01').getTime();
+            incpays[1] = incrementpay(incpays[0], agp, 1);
+            incpays[2] = incrementpay(incpays[1], agp, 1);
+            incpays[3] = incrementpay(incpays[2], agp, 1);
+            incpays[4] = incrementpay(incpays[3], agp, 1);
+
+            for(var i = 1; i < 5; i++){
+                if(incdates[i]>eightsep){
+                    var eightseppay = incpays[i-1]
+                    i = 5
+                }
+            }
+        }
+
+        document.form.advpay.value = aidatepay;
+        
+        var datedate = document.form.date.value;
+        var dates = new Date(datedate).getTime();
+        document.form.incdates.value = incpays;
+        document.form.nextyear.value = eightseppay;
+
+        
+
+
+    }
+
+</script>

@@ -8,10 +8,12 @@ const userHelpers = require('../helpers/user-helpers');
 const printHelpers = require('../helpers/print-helpers');
 const advanceprintHelpers = require('../helpers/advanceprint-helpers');
 const closureprintHelpers = require('../helpers/closureprint-helpers');
+const aiprintHelpers = require('../helpers/aiprint-helpers');
 const teacherprintHelpers = require('../helpers/teacherprint-helpers');
 const pensionHelpers = require('../helpers/pension-helpers');
 const advanceHelpers = require('../helpers/advance-helpers');
 const closureHelpers = require('../helpers/closure-helpers');
+const aiHelpers = require('../helpers/ai-helpers');
 const arrearHelpers = require('../helpers/arrear-helpers');
 const ntsarrearHelpers = require('../helpers/ntsarrear-helpers');
 const arrearsHelpers = require('../helpers/arrears-helpers')
@@ -418,8 +420,19 @@ router.post('/view-els', (req, res) => {
   })
 });
 
-
-
+router.get('/add-ai', function (req, res, next) {
+  let user = req.session.user;
+  productHelpers.getAllColleges().then((colleges) => {  
+      res.render('user/add-ai', { colleges, user });
+  })
+})
+router.post('/add-ai', (req, res) => {
+  var page = `../files/closure.docx`;
+  var collectname = collection.AI_COLLECTION;
+  aiHelpers.addItem(req.body,collectname,(id) => {
+    aiprintHelpers.printWork(req.body,page,res);
+  });
+});
 
 
 

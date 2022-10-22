@@ -13,5 +13,6 @@ module.exports={
     ADVANCE_COLLECTION: 'advance',
     CLOSURE_COLLECTION: 'closure',
     TEACHER_COLLECTION: 'teacher',
-    CASHBOOK_COLLECTION: 'cashbook'
+    CASHBOOK_COLLECTION: 'cashbook',
+    AI_COLLECTION: 'ai'
 }
